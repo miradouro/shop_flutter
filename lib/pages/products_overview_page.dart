@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/badge.dart';
+import 'package:shop/utils/app_routes.dart';
 import '../components/product_grid.dart';
+import '../models/cart.dart';
 import '../models/product_list.dart';
 
-enum FilterOptions{
+enum FilterOptions {
   Favorite,
   All,
 }
@@ -31,14 +34,26 @@ class ProductsOverviewPage extends StatelessWidget {
                 value: FilterOptions.All,
               ),
             ],
-            onSelected: (FilterOptions selectedValue){
-              if (selectedValue == FilterOptions.Favorite){
+            onSelected: (FilterOptions selectedValue) {
+              if (selectedValue == FilterOptions.Favorite) {
                 provider.showFavoriteOnly();
-              }else{
+              } else {
                 provider.showAll();
               }
               print(selectedValue);
             },
+          ),
+          Consumer<Cart>(
+            child: IconButton(
+              onPressed: (){
+                Navigator.of(context).pushNamed(AppRoutes.CART);
+              },
+              icon: Icon(Icons.shopping_cart),
+            ),
+            builder: (ctx, cart, child) => Badge(
+              value: cart.itemsCount.toString(),
+              child: child!,
+            ),
           ),
         ],
       ),
