@@ -1,55 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/cart.dart';
+import 'package:shop/models/product_list.dart';
 import '../models/product.dart';
-import '../utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {
+  final Product product;
+
+  const ProductItem(this.product, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<Cart>(context);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        child: GestureDetector(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-          ),
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              AppRoutes.PRODUCT_DETAIL,
-              arguments: product,
-            );
-          },
-        ),
-        footer: GridTileBar(
-          title: Text(
-            product.name,
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: Colors.black54,
-          leading: Consumer<Product>(
-            builder: (ctx, product, _) => IconButton(
-              onPressed: () {
-                product.toggleFavorite();
-              },
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(product.imageUrl),
+      ),
+      title: Text(product.name),
+      trailing: Container(
+        width: 100,
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: (){},
               icon: Icon(
-                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
-              color: product.isFavorite
-                  ? Theme.of(context).secondaryHeaderColor
-                  : Colors.white,
+                Icons.edit,
+              ),
             ),
-          ),
-          trailing: IconButton(
-            onPressed: () {
-              cart.addItem(product);
-            },
-            icon: Icon(Icons.shopping_cart_outlined),
-            color: Colors.white,
-          ),
+            IconButton(
+              onPressed: (){},
+              icon: Icon(
+                Icons.delete,
+              ),
+            ),
+          ],
         ),
       ),
     );

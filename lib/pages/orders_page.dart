@@ -14,7 +14,6 @@ class OrdersPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Meus Pedidos'),
-        automaticallyImplyLeading: false,
       ),
       drawer: AppDrawer(),
       body: ListView.builder(
