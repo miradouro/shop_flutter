@@ -48,9 +48,7 @@ class ProductItem extends StatelessWidget {
               cart.addItem(product);
             },
             icon: Icon(Icons.shopping_cart_outlined),
-            color: product.isFavorite
-                ? Theme.of(context).secondaryHeaderColor
-                : Colors.white,
+            color: Colors.white,
           ),
         ),
       ),
