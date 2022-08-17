@@ -12,9 +12,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _descriptionFocus = FocusNode();
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _imageUrlFocus.addListener(updateImage);
   }
@@ -28,9 +29,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
     _imageUrlFocus.removeListener(updateImage);
   }
 
-  void updateImage(){
-    setState(() {
-    });
+  void updateImage() {
+    setState(() {});
+  }
+
+  void _submitForm() {
+    _formkey.currentState?.save();
   }
 
   @override
@@ -39,10 +43,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Formulario de Produto"),
+        actions: [
+          IconButton(
+            onPressed: _submitForm,
+            icon: Icon(Icons.save),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Form(
+          key: _formkey,
           child: ListView(
             children: [
               TextFormField(
@@ -51,6 +62,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
+                onSaved: (name) => print('nome....' + (name ?? '-')),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Preço'),
@@ -79,6 +91,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
+                      onFieldSubmitted: (_) => _submitForm(),
                     ),
                   ),
                   Container(
